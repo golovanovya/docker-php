@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.2-fpm
 RUN apt update
 RUN apt install unixodbc-dev -y
 RUN pecl install sqlsrv
