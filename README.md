@@ -1,5 +1,5 @@
 #Docker image php-fpm 7.2
 
-Docker image php-fmp version 7.2 with installed pdo_mysql, pdo_sqlsrv, gd, xdebug extensions
+Docker image php-fmp version 7.2 with installed pdo_mysql, pdo_sqlsrv, gd, xdebug, mysqli extensions
 
 Config xdebug with enviromnments XDEBUG_CONFIG="idekey=docker remote_host={IP_ADDRESS} remote_port=9000 remote_enable=on remote_handler=dbgp remote_autostart=1"
