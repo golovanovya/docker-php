@@ -15,3 +15,4 @@ RUN apk add --no-cache $PHPIZE_DEPS \
     && docker-php-ext-enable xdebug
 RUN apk add ssmtp
 RUN apk add git
+RUN apk add composer
