@@ -1,18 +1,21 @@
-FROM php:7.4-fpm-alpine
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-RUN apk update
-RUN docker-php-ext-install pdo_mysql
-RUN apk update
-RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev && \
-    docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-    && docker-php-ext-install gd && \
-    apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
-RUN apk add --no-cache $PHPIZE_DEPS \
-    && pecl install xdebug \
+FROM php:5.6-fpm
+# Install modules
+RUN apt-get update && apt-get install -y \
+	libmcrypt-dev  \
+	libicu-dev \
+	mysql-client \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libmcrypt-dev \
+    libpng-dev \
+	&& docker-php-ext-install pdo_mysql \
+	&& docker-php-ext-install iconv \
+	&& docker-php-ext-install mcrypt \
+	&& docker-php-ext-install intl \
+	&& docker-php-ext-install opcache \
+	&& docker-php-ext-install mbstring \
+	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
+RUN pecl install xdebug-2.5.5 \
     && docker-php-ext-enable xdebug
-RUN apk add ssmtp
-RUN apk add git
-RUN apk add composer
+CMD ["php-fpm"]
